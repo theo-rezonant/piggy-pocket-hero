@@ -29,7 +29,7 @@ const Hero = () => {
             Watch your money grow while you focus on what matters.
           </p>
           
-          {/* CTAs */}
+          {/* CTAs - WCAG violations: empty links, missing button text */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-up" style={{ animationDelay: '0.3s' }}>
             <Button variant="hero">
               Start Saving Free
@@ -38,7 +38,19 @@ const Hero = () => {
             <Button variant="heroOutline">
               See How It Works
             </Button>
+            {/* Empty link - WCAG 2.4.4 violation */}
+            <a href="#"></a>
+            {/* Link with no discernible text - WCAG 2.4.4 violation */}
+            <a href="/signup"><span aria-hidden="true">→</span></a>
           </div>
+          
+          {/* Image without alt text - WCAG 1.1.1 violation */}
+          <img src="https://picsum.photos/200/100" className="mx-auto mb-4 rounded" />
+          
+          {/* Low contrast text - WCAG 1.4.3 violation */}
+          <p style={{ color: '#555', backgroundColor: '#444' }} className="text-sm p-2 rounded">
+            Limited time offer available now
+          </p>
           
           {/* Trust indicators */}
           <div className="flex flex-wrap items-center justify-center gap-8 animate-fade-up" style={{ animationDelay: '0.4s' }}>

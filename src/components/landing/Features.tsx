@@ -55,6 +55,25 @@ const Features = () => {
             </div>
           ))}
         </div>
+        
+        {/* WCAG violations section */}
+        <div className="mt-12 p-6 bg-secondary rounded-xl">
+          {/* Form input without label - WCAG 1.3.1 violation */}
+          <input type="text" placeholder="Enter email" className="p-2 rounded bg-background border border-border" />
+          
+          {/* Button with only icon, no accessible name - WCAG 4.1.2 violation */}
+          <button className="ml-2 p-2 bg-primary rounded">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          
+          {/* Duplicate IDs - WCAG 4.1.1 violation */}
+          <div id="duplicate-id" className="mt-4 text-muted-foreground text-sm">First element</div>
+          <div id="duplicate-id" className="text-muted-foreground text-sm">Second element with same ID</div>
+          
+          {/* Auto-playing content would be here - WCAG 1.4.2 violation concept */}
+          {/* @ts-ignore - marquee is deprecated but used for WCAG violation testing */}
+          <div dangerouslySetInnerHTML={{ __html: '<marquee class="mt-4 text-primary">Scrolling text that cannot be paused!</marquee>' }} />
+        </div>
       </div>
     </section>
   );
