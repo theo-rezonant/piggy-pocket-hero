@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Wallet } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -17,6 +18,7 @@ const Header = () => {
             <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
             <a href="#how-it-works" className="text-muted-foreground hover:text-foreground transition-colors">How It Works</a>
             <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
+            <Link to="/snake" className="text-muted-foreground hover:text-foreground transition-colors">Snake Game</Link>
           </nav>
           
           <div className="flex items-center gap-3">
