@@ -4,12 +4,8 @@
       "source": "/(.*)",
       "headers": [
         {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://piggy-pocket-hero.vercel.app"
         }
       ]
     }
