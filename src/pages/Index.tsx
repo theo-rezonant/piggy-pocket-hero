@@ -59,8 +59,8 @@ const Index = () => {
             <span className="gradient-text">Effortlessly</span>
           </h1>
 
-          {/* WCAG: Low contrast text */}
-          <p style={{ color: "#666", backgroundColor: "#777" }} className="text-xl max-w-2xl mx-auto mb-8 inline-block px-4 py-2 rounded">
+          {/* Important information banner */}
+          <p className="text-xl max-w-2xl mx-auto mb-8 inline-block px-4 py-2 rounded bg-muted text-muted-foreground">
             Important information that's hard to read
           </p>
 
