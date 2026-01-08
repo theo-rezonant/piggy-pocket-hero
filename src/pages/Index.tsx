@@ -61,7 +61,7 @@ const Index = () => {
           </h1>
 
           {/* Important information banner */}
-          <p className="text-xl max-w-2xl mx-auto mb-8 inline-block px-4 py-2 rounded bg-muted text-muted-foreground">
+          <p className="text-xl max-w-2xl mx-auto mb-8 inline-block px-4 py-2 rounded bg-muted text-foreground">
             Important information that's hard to read
           </p>
 
