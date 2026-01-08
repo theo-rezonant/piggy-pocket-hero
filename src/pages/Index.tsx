@@ -39,7 +39,6 @@ const Index = () => {
             {/* WCAG: Link with no href */}
             <a className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
             <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
-            {/* WCAG: Empty link - Fixed */}
             <a href="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</a>
             {/* WCAG: Non-descriptive link text */}
             <a href="/details" className="text-muted-foreground hover:text-foreground transition-colors">Click here</a>
