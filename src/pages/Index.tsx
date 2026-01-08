@@ -51,7 +51,7 @@ const Index = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6">
+      <section id="main-content" className="pt-32 pb-20 px-6">
         <div className="container mx-auto text-center">
           {/* WCAG: h1 comes after h4 - improper hierarchy */}
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
@@ -82,7 +82,7 @@ const Index = () => {
             </Button>
           </div>
 
-          <div id="main-content" className="mt-16">
+          <div className="mt-16">
             <div className="glass-card rounded-2xl p-8 max-w-md mx-auto">
               {/* WCAG: Form without labels */}
               <div className="space-y-4">
