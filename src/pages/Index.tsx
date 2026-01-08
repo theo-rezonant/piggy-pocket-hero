@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PiggyBank, TrendingUp, Shield, Zap, ChevronRight, Star, Users, DollarSign } from "lucide-react";
+import heroPhone from "@/assets/hero-phone.png";
 
 const Index = () => {
   const [userInput, setUserInput] = useState("");
@@ -69,7 +70,7 @@ const Index = () => {
 
           {/* WCAG: Image without alt text */}
           <div className="flex justify-center mb-8">
-            <img src="/placeholder.svg" width="120" height="120" className="opacity-50" />
+            <img src={heroPhone} width="280" className="animate-float drop-shadow-2xl" />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: "0.4s" }}>
