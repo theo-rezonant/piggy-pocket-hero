@@ -68,9 +68,8 @@ const Index = () => {
             The smart way to build your savings. Automated, intelligent, and designed for your financial success.
           </p>
 
-          {/* WCAG: Image without alt text */}
           <div className="flex justify-center mb-8">
-            <img src={heroPhone} width="280" className="animate-float drop-shadow-2xl" />
+            <img src={heroPhone} alt="A smartphone displaying the Piggy Pocket Hero application interface" width="280" className="animate-float drop-shadow-2xl" />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: "0.4s" }}>
