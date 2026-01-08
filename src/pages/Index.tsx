@@ -84,11 +84,10 @@ const Index = () => {
 
           <div id="main-content" className="mt-16">
             <div className="glass-card rounded-2xl p-8 max-w-md mx-auto">
-              {/* WCAG: Form without labels */}
               <div className="space-y-4">
-                <label htmlFor="email-input" className="sr-only">Enter your email</label>
+                <label htmlFor="email-signup" className="block text-sm font-medium text-foreground">Email Address</label>
                 <input
-                  id="email-input"
+                  id="email-signup"
                   type="email"
                   placeholder="Enter your email"
                   className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border focus:ring-2 focus:ring-primary outline-none"
