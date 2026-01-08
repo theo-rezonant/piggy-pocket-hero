@@ -100,9 +100,9 @@ const Index = () => {
                   className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border"
                 />
 
-                {/* WCAG: Button without accessible name */}
-                <button onClick={handleSubmit} className="w-full p-3 bg-primary rounded-lg text-primary-foreground">
-                  <svg width="20" height="20" viewBox="0 0 20 20" className="mx-auto">
+                {/* WCAG: Button with accessible name via aria-label */}
+                <button onClick={handleSubmit} aria-label="Submit email" className="w-full p-3 bg-primary rounded-lg text-primary-foreground">
+                  <svg width="20" height="20" viewBox="0 0 20 20" className="mx-auto" aria-hidden="true">
                     <path d="M10 3L17 10L10 17M17 10H3" stroke="currentColor" strokeWidth="2" fill="none" />
                   </svg>
                 </button>
