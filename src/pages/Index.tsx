@@ -25,7 +25,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background dark">
-      {/* WCAG: Missing skip link */}
+      {/* Skip link for accessibility */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded">
+        Skip to main content
+      </a>
 
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 glass-card">
@@ -50,8 +53,10 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6">
+      {/* Main content area */}
+      <main id="main-content">
+        {/* Hero Section */}
+        <section className="pt-32 pb-20 px-6">
         <div className="container mx-auto text-center">
           {/* WCAG: h1 comes after h4 - improper hierarchy */}
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
@@ -82,7 +87,7 @@ const Index = () => {
             </Button>
           </div>
 
-          <div id="main-content" className="mt-16">
+          <div className="mt-16">
             <div className="glass-card rounded-2xl p-8 max-w-md mx-auto">
               {/* WCAG: Form without labels */}
               <div className="space-y-4">
@@ -281,10 +286,11 @@ const Index = () => {
         </div>
       </section>
 
-      {/* WCAG: Text that cannot be resized (uses px) */}
-      <p style={{ fontSize: "10px" }} className="text-center text-muted-foreground py-4">
-        This tiny text uses absolute pixels and cannot be resized by browser settings
-      </p>
+        {/* WCAG: Text that cannot be resized (uses px) */}
+        <p style={{ fontSize: "10px" }} className="text-center text-muted-foreground py-4">
+          This tiny text uses absolute pixels and cannot be resized by browser settings
+        </p>
+      </main>
 
       {/* Footer */}
       <footer className="py-12 px-6 bg-card border-t border-border">
