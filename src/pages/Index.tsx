@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PiggyBank, TrendingUp, Shield, Zap, ChevronRight, Star, Users, DollarSign } from "lucide-react";
 import heroPhone from "@/assets/hero-phone.png";
@@ -89,10 +90,10 @@ const Index = () => {
 
           <div className="mt-16">
             <div className="glass-card rounded-2xl p-8 max-w-md mx-auto">
-              {/* WCAG: Form without labels */}
+              {/* WCAG: Form with accessible label */}
               <div className="space-y-4">
-                <label htmlFor="email-input" className="sr-only">Enter your email</label>
-                <input
+                <Label htmlFor="email-input" className="sr-only">Enter your email</Label>
+                <Input
                   id="email-input"
                   type="email"
                   placeholder="Enter your email"
