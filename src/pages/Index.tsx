@@ -82,9 +82,8 @@ const Index = () => {
             </Button>
           </div>
 
-          {/* WCAG: Duplicate IDs */}
           <div id="main-content" className="mt-16">
-            <div id="main-content" className="glass-card rounded-2xl p-8 max-w-md mx-auto">
+            <div className="glass-card rounded-2xl p-8 max-w-md mx-auto">
               {/* WCAG: Form without labels */}
               <div className="space-y-4">
                 <input
