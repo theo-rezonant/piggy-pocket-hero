@@ -4,6 +4,11 @@ import { useEffect } from "react";
 const NotFound = () => {
   const location = useLocation();
 
+  // Update page title on mount
+  useEffect(() => {
+    document.title = "Page Not Found - SaveSmart";
+  }, []);
+
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
   }, [location.pathname]);
