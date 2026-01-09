@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PiggyBank, TrendingUp, Shield, Zap, ChevronRight, Star, Users, DollarSign } from "lucide-react";
 import heroPhone from "@/assets/hero-phone.png";
+import { MobileNav } from "@/components/MobileNav";
 
 const Index = () => {
   const [userInput, setUserInput] = useState("");
   const [submittedData, setSubmittedData] = useState("");
+
+  // Update page title on mount
+  useEffect(() => {
+    document.title = "SaveSmart - Save Money Effortlessly";
+  }, []);
 
   // SECURITY VIOLATION: Storing sensitive data in localStorage without encryption
   const saveToLocalStorage = () => {
@@ -35,6 +41,8 @@ const Index = () => {
       <header className="fixed top-0 left-0 right-0 z-50 glass-card">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
+            {/* Mobile navigation - visible only on screens smaller than md */}
+            <MobileNav />
             <PiggyBank className="w-8 h-8 text-primary" />
             {/* WCAG: Improper heading hierarchy - h4 in header before h1 */}
             <h4 className="text-xl font-bold text-foreground">SaveSmart</h4>
@@ -48,7 +56,7 @@ const Index = () => {
             {/* WCAG: Non-descriptive link text */}
             <a href="/details" className="text-muted-foreground hover:text-foreground transition-colors">Click here</a>
           </nav>
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+          <Button className="hidden md:inline-flex bg-primary text-primary-foreground hover:bg-primary/90">
             Get Started
           </Button>
         </div>
