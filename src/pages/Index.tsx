@@ -40,13 +40,11 @@ const Index = () => {
             <h4 className="text-xl font-bold text-foreground">SaveSmart</h4>
           </div>
           <nav className="hidden md:flex items-center gap-8">
-            {/* WCAG: Link with no href */}
-            <a className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
+            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
             <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
             {/* WCAG: Empty link - Fixed */}
             <a href="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</a>
-            {/* WCAG: Non-descriptive link text */}
-            <a href="/details" className="text-muted-foreground hover:text-foreground transition-colors">Click here</a>
+            <a href="/details" className="text-muted-foreground hover:text-foreground transition-colors">View Details</a>
           </nav>
           <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
             Get Started
@@ -190,23 +188,24 @@ const Index = () => {
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8 text-foreground">Quick Actions</h2>
           <div className="flex justify-center gap-4 flex-wrap">
-            <Button tabIndex={5} variant="outline">First Action</Button>
-            <Button tabIndex={1} variant="outline">Second Action</Button>
-            <Button tabIndex={3} variant="outline">Third Action</Button>
+            <Button variant="outline">First Action</Button>
+            <Button variant="outline">Second Action</Button>
+            <Button variant="outline">Third Action</Button>
           </div>
         </div>
       </section>
 
-      {/* WCAG: onclick on non-interactive element without keyboard support */}
+      {/* Interactive card section */}
       <section className="py-12 px-6">
         <div className="container mx-auto">
-          <div
-            className="glass-card rounded-2xl p-8 text-center cursor-pointer hover:scale-[1.02] transition-transform"
+          <button
+            type="button"
+            className="glass-card rounded-2xl p-8 text-center cursor-pointer hover:scale-[1.02] transition-transform w-full"
             onClick={() => alert("Clicked!")}
           >
             <h2 className="text-2xl font-bold text-foreground mb-2">Click this card!</h2>
-            <p className="text-muted-foreground">This div has onClick but no keyboard support</p>
-          </div>
+            <p className="text-muted-foreground">This card is now keyboard accessible</p>
+          </button>
         </div>
       </section>
 
@@ -301,9 +300,8 @@ const Index = () => {
             <span className="text-lg font-bold text-foreground">SaveSmart</span>
           </div>
           <p className="text-muted-foreground mb-4">© 2024 SaveSmart. All rights reserved.</p>
-          {/* WCAG: Link opens in new window without warning */}
-          <a href="https://example.com" target="_blank" className="text-primary hover:underline">
-            External Link
+          <a href="https://example.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            External Link<span className="sr-only"> (opens in a new tab)</span>
           </a>
         </div>
       </footer>
