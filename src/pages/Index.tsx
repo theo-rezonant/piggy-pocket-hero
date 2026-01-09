@@ -159,11 +159,12 @@ const Index = () => {
           </div>
         </div>
 
-        {/* WCAG: Auto-playing content without controls - marquee */}
-        <div
-          className="mt-12 text-primary font-semibold"
-          dangerouslySetInnerHTML={{ __html: '<marquee>🎉 Special offer! Limited time only - Get 3 months free! 🎉</marquee>' }}
-        />
+        {/* Static special offer banner - accessible replacement for marquee */}
+        <div className="mt-12 text-center">
+          <p className="text-primary font-semibold text-lg px-4 py-2 bg-primary/10 rounded-lg inline-block">
+            🎉 Special offer! Limited time only - Get 3 months free! 🎉
+          </p>
+        </div>
       </section>
 
       {/* Stats Section */}
@@ -266,30 +267,30 @@ const Index = () => {
         </div>
       </section>
 
-      {/* WCAG: Color as only indicator */}
+      {/* Service Status with text labels for accessibility */}
       <section className="py-12 px-6">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-8 text-foreground">Service Status</h2>
           <div className="flex justify-center gap-8">
             <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
-              <span className="text-foreground">API</span>
+              <span className="inline-block w-4 h-4 rounded-full bg-green-500" aria-hidden="true"></span>
+              <span className="text-foreground">API (Online)</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded-full bg-red-500"></span>
-              <span className="text-foreground">Payments</span>
+              <span className="inline-block w-4 h-4 rounded-full bg-red-500" aria-hidden="true"></span>
+              <span className="text-foreground">Payments (Offline)</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded-full bg-yellow-500"></span>
-              <span className="text-foreground">Sync</span>
+              <span className="inline-block w-4 h-4 rounded-full bg-yellow-500" aria-hidden="true"></span>
+              <span className="text-foreground">Sync (Degraded)</span>
             </div>
           </div>
         </div>
       </section>
 
-        {/* WCAG: Text that cannot be resized (uses px) */}
-        <p style={{ fontSize: "10px" }} className="text-center text-muted-foreground py-4">
-          This tiny text uses absolute pixels and cannot be resized by browser settings
+        {/* Accessible text using relative units (rem) */}
+        <p className="text-xs text-center text-muted-foreground py-4">
+          This text uses relative units and can be resized by browser settings
         </p>
       </main>
 
