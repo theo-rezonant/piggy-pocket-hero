@@ -27,82 +27,33 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    // Enable minification and tree-shaking optimizations
-    minify: "esbuild",
-    // Improve tree-shaking for production builds
-    target: "esnext",
     rollupOptions: {
       output: {
         /**
-         * Dynamic chunk splitting based on module path.
-         * This function-based approach properly handles dynamically imported modules
-         * and creates separate chunks for:
-         * - Heavy UI libraries (recharts, embla, cmdk) - lazy loaded
-         * - React core libraries
-         * - Radix UI primitives
+         * Manual chunk splitting strategy for optimal code splitting:
+         * - vendor-react: Core React runtime (shared across all routes)
+         * - vendor-router: Routing library (shared across all routes)
+         * - vendor-radix: Radix UI primitives (shared by shadcn/ui components)
+         * - vendor-utils: Utility libraries like clsx, tailwind-merge (shared by UI components)
+         * - vendor-query: TanStack Query (loaded with app shell, can be deferred if unused)
+         *
+         * Page components (Index, NotFound) will be automatically split
+         * into separate chunks via React.lazy() dynamic imports.
          */
-        manualChunks(id) {
-          // Heavy UI dependencies get their own chunks for lazy loading
-          if (id.includes("node_modules/recharts") || id.includes("node_modules/d3-")) {
-            return "ui-recharts";
-          }
-          if (id.includes("node_modules/embla-carousel")) {
-            return "ui-embla";
-          }
-          if (id.includes("node_modules/cmdk")) {
-            return "ui-cmdk";
-          }
-
-          // React core in its own chunk
-          if (
-            id.includes("node_modules/react/") ||
-            id.includes("node_modules/react-dom/") ||
-            id.includes("node_modules/scheduler/")
-          ) {
-            return "vendor-react";
-          }
-
-          // React Router
-          if (id.includes("node_modules/react-router")) {
-            return "vendor-router";
-          }
-
-          // TanStack Query
-          if (id.includes("node_modules/@tanstack/react-query")) {
-            return "vendor-query";
-          }
-
-          // Radix UI primitives (commonly used)
-          if (id.includes("node_modules/@radix-ui")) {
-            return "vendor-radix";
-          }
-
-          // Styling utilities (clsx, tailwind-merge, CVA)
-          if (
-            id.includes("node_modules/clsx") ||
-            id.includes("node_modules/tailwind-merge") ||
-            id.includes("node_modules/class-variance-authority")
-          ) {
-            return "vendor-utils";
-          }
+        manualChunks: {
+          "vendor-react": ["react", "react-dom"],
+          "vendor-router": ["react-router-dom"],
+          "vendor-radix": [
+            "@radix-ui/react-tooltip",
+            "@radix-ui/react-slot",
+          ],
+          "vendor-utils": ["clsx", "tailwind-merge", "class-variance-authority"],
+          "vendor-query": ["@tanstack/react-query"],
+          "vendor-sonner": ["sonner"],
         },
       },
-      // Tree-shaking configuration - use recommended preset
-      // Note: moduleSideEffects: false can be too aggressive for some libraries
-      treeshake: {
-        preset: "recommended",
-      },
     },
-  },
-  // Optimize dependency pre-bundling for dev server
-  optimizeDeps: {
-    include: [
-      "react",
-      "react-dom",
-      "react-router-dom",
-      "clsx",
-      "tailwind-merge",
-      "class-variance-authority",
-    ],
+    // Reduce chunk size warnings threshold
+    chunkSizeWarningLimit: 500,
   },
 }));
