@@ -15,7 +15,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+        // Inter with custom fallback font that has metric overrides to prevent CLS
+        // The 'Inter Fallback' font-face in index.css uses ascent-override, descent-override,
+        // line-gap-override, and size-adjust to match Inter's metrics
+        sans: ["Inter", "Inter Fallback", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         border: "hsl(var(--border))",

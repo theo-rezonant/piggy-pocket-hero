@@ -4,9 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!--
+      Font Loading Strategy for CLS Optimization:
+      - Critical fonts (regular, bold) are preloaded to ensure they load early
+      - Non-critical weights (medium, semibold) use prefetch for lower priority loading
+      - All fonts use font-display: swap with metric overrides in CSS to prevent layout shift
+    -->
     <!-- Preload critical fonts for improved LCP -->
-    <link rel="preload" href="/fonts/inter-regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/inter-bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/inter-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <!-- Prefetch non-critical font weights for smooth secondary loading -->
+    <link rel="prefetch" href="/fonts/inter-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="prefetch" href="/fonts/inter-semibold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     <!-- TODO: Set the document title to the name of your application -->
     <title>Lovable App</title>
     <meta name="description" content="Lovable Generated Project" />
