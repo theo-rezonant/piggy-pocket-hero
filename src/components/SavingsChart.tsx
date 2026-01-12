@@ -5,6 +5,9 @@ import { ChartSkeleton } from "@/components/ui/lazy";
  * Lazy-loaded recharts components.
  * This reduces initial bundle size by ~45KB (gzipped) as recharts
  * is only loaded when this component is actually rendered.
+ *
+ * Requires Recharts v3.x+ for React 18 Concurrent Mode compatibility
+ * and to resolve findDOMNode deprecation warnings.
  */
 const LazyBarChart = lazy(() => import("recharts").then((m) => ({ default: m.BarChart })));
 const LazyBar = lazy(() => import("recharts").then((m) => ({ default: m.Bar })));
