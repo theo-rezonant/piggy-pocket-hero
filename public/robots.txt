@@ -1,3 +1,6 @@
+# Robots.txt for Piggy Pocket
+# This file allows all crawlers to index all public pages
+
 User-agent: Googlebot
 Allow: /
 
@@ -12,3 +15,6 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Sitemap location (update with actual domain when deployed)
+# Sitemap: https://piggypocket.com/sitemap.xml
