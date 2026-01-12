@@ -1,5 +1,7 @@
 import * as React from "react";
 // Named imports for better tree-shaking - only import what we actually use
+// Recharts v3.x+ is required for React 18 Concurrent Mode compatibility
+// and to resolve findDOMNode deprecation warnings
 import { ResponsiveContainer, Tooltip, Legend, type LegendProps } from "recharts";
 
 import { cn } from "@/lib/utils";

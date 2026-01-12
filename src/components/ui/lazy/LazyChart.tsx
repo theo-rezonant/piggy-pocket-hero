@@ -4,6 +4,9 @@
  * This module dynamically imports recharts (~45KB gzipped)
  * only when charts are actually rendered, reducing initial bundle size.
  *
+ * Requires Recharts v3.x+ for React 18 Concurrent Mode compatibility
+ * and to resolve findDOMNode deprecation warnings.
+ *
  * Usage:
  * ```tsx
  * import { Suspense } from "react";
