@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PiggyBank, TrendingUp, Shield, Zap, ChevronRight, Star, Users, DollarSign } from "lucide-react";
-import heroPhone from "@/assets/hero-phone.png";
+import heroPhone from "@/assets/hero-phone.webp";
 
 // PERFORMANCE ISSUE: Heavy synchronous computation that blocks main thread
 const heavyComputation = () => {
