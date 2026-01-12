@@ -1,9 +1,33 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PiggyBank, TrendingUp, Shield, Zap, ChevronRight, Star, Users, DollarSign } from "lucide-react";
+import { PiggyBank, ChevronRight } from "lucide-react";
 import heroPhone from "@/assets/hero-phone.png";
+
+// Lazy-loaded below-the-fold sections for improved initial page load performance
+const FeaturesSection = lazy(() => import("@/components/sections/FeaturesSection"));
+const HowItWorksSection = lazy(() => import("@/components/sections/HowItWorksSection"));
+
+// Skeleton loader component to prevent CLS while lazy sections load
+const SectionSkeleton = ({ minHeight = "400px" }: { minHeight?: string }) => (
+  <div
+    className="w-full animate-pulse bg-secondary/20"
+    style={{ minHeight }}
+    aria-label="Loading content..."
+    role="status"
+  >
+    <div className="container mx-auto px-6 py-20">
+      <div className="h-8 bg-secondary/40 rounded w-64 mx-auto mb-4" />
+      <div className="h-4 bg-secondary/40 rounded w-96 mx-auto mb-16 max-w-full" />
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="h-48 bg-secondary/40 rounded-xl" />
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 // PERFORMANCE ISSUE: Heavy synchronous computation that blocks main thread
 const heavyComputation = () => {
@@ -213,56 +237,14 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-6 bg-secondary/30">
-        <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-4 text-foreground">Why Choose SaveSmart?</h2>
-          <p className="text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
-            Powerful features designed to help you reach your financial goals faster.
-          </p>
+      {/* Lazy-loaded below-the-fold sections */}
+      <Suspense fallback={<SectionSkeleton minHeight="480px" />}>
+        <FeaturesSection />
+      </Suspense>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: TrendingUp, title: "Smart Analytics", desc: "AI-powered insights into your spending patterns" },
-              { icon: Shield, title: "Bank-Level Security", desc: "256-bit encryption keeps your data safe" },
-              { icon: Zap, title: "Instant Transfers", desc: "Move money in seconds, not days" },
-              { icon: PiggyBank, title: "Auto-Savings", desc: "Set rules to save automatically" },
-            ].map((feature, index) => (
-              <div key={index} className="glass-card rounded-xl p-6 hover:scale-105 transition-transform">
-                <feature.icon className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-xl font-semibold mb-2 text-foreground">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Static special offer banner - accessible replacement for marquee */}
-        <div className="mt-12 text-center">
-          <p className="text-primary font-semibold text-lg px-4 py-2 bg-primary/10 rounded-lg inline-block">
-            🎉 Special offer! Limited time only - Get 3 months free! 🎉
-          </p>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            {[
-              { icon: Users, value: "500K+", label: "Active Users" },
-              { icon: DollarSign, value: "$2.5B", label: "Saved by Users" },
-              { icon: Star, value: "4.9/5", label: "App Store Rating" },
-            ].map((stat, index) => (
-              <div key={index} className="glass-card rounded-2xl p-8">
-                <stat.icon className="w-10 h-10 text-primary mx-auto mb-4" />
-                <div className="text-4xl font-bold text-foreground mb-2">{stat.value}</div>
-                <div className="text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Suspense fallback={<SectionSkeleton minHeight="300px" />}>
+        <HowItWorksSection />
+      </Suspense>
 
       {/* WCAG: Positive tabindex disrupting natural tab order */}
       <section className="py-12 px-6 bg-secondary/30">
