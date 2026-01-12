@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PiggyBank, TrendingUp, Shield, Zap, ChevronRight, Star, Users, DollarSign } from "lucide-react";
 import heroPhone from "@/assets/hero-phone.png";
+import { ChartSkeleton } from "@/components/ui/chart-skeleton";
+
+// Lazy-load the SavingsChart component to ensure recharts is code-split
+const SavingsChart = lazy(() => import("@/components/SavingsChart"));
 
 // PERFORMANCE ISSUE: Heavy synchronous computation that blocks main thread
 const heavyComputation = () => {
@@ -263,6 +267,25 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Savings Chart Section - Lazy Loaded */}
+      <Suspense fallback={
+        <section className="py-20 px-6 bg-secondary/30">
+          <div className="container mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-4 text-foreground">
+              Your Savings Journey
+            </h2>
+            <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
+              Track your monthly savings progress and see how you're doing against your goals.
+            </p>
+            <div className="max-w-4xl mx-auto glass-card rounded-2xl p-6">
+              <ChartSkeleton className="h-[350px]" aspectRatio="aspect-auto" />
+            </div>
+          </div>
+        </section>
+      }>
+        <SavingsChart />
+      </Suspense>
 
       {/* WCAG: Positive tabindex disrupting natural tab order */}
       <section className="py-12 px-6 bg-secondary/30">
