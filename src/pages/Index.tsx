@@ -11,6 +11,30 @@ import {
   FooterSection,
 } from "@/components/sections/index";
 
+// Lazy-loaded below-the-fold sections for improved initial page load performance
+const FeaturesSection = lazy(() => import("@/components/sections/FeaturesSection"));
+const HowItWorksSection = lazy(() => import("@/components/sections/HowItWorksSection"));
+
+// Skeleton loader component to prevent CLS while lazy sections load
+const SectionSkeleton = ({ minHeight = "400px" }: { minHeight?: string }) => (
+  <div
+    className="w-full animate-pulse bg-secondary/20"
+    style={{ minHeight }}
+    aria-label="Loading content..."
+    role="status"
+  >
+    <div className="container mx-auto px-6 py-20">
+      <div className="h-8 bg-secondary/40 rounded w-64 mx-auto mb-4" />
+      <div className="h-4 bg-secondary/40 rounded w-96 mx-auto mb-16 max-w-full" />
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="h-48 bg-secondary/40 rounded-xl" />
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
 // PERFORMANCE ISSUE: Heavy synchronous computation that blocks main thread
 const heavyComputation = () => {
   let result = 0;
