@@ -2,7 +2,15 @@ import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import heroPhone from "@/assets/hero-phone.webp";
+
+// Optimized hero phone images in multiple formats and sizes for responsive loading
+// AVIF provides better compression than WebP, with WebP as fallback
+import heroPhoneAvif280 from "@/assets/hero-phone-280.avif";
+import heroPhoneAvif560 from "@/assets/hero-phone-560.avif";
+import heroPhoneAvif840 from "@/assets/hero-phone-840.avif";
+import heroPhoneWebp280 from "@/assets/hero-phone-280.webp";
+import heroPhoneWebp560 from "@/assets/hero-phone-560.webp";
+import heroPhoneWebp840 from "@/assets/hero-phone-840.webp";
 
 interface HeroSectionProps {
   userInput: string;
@@ -30,7 +38,38 @@ export function HeroSection({ userInput, setUserInput, submittedData, handleSubm
         </p>
 
         <div className="flex justify-center mb-8">
-          <img src={heroPhone} alt="A smartphone displaying the Piggy Pocket Hero application interface" width="280" className="animate-float drop-shadow-2xl" />
+          {/*
+            LCP-optimized hero image using <picture> element:
+            - fetchpriority="high" ensures the browser prioritizes this image during initial load
+            - Explicit width/height (280x350 based on 4:5 aspect ratio) prevents CLS
+            - AVIF format served first (better compression), WebP as fallback
+            - srcset provides 1x, 2x, and 3x density variants for retina displays
+          */}
+          <picture>
+            {/* AVIF sources for browsers that support it (best compression) */}
+            <source
+              type="image/avif"
+              srcSet={`${heroPhoneAvif280} 280w, ${heroPhoneAvif560} 560w, ${heroPhoneAvif840} 840w`}
+              sizes="280px"
+            />
+            {/* WebP sources as fallback for broader browser support */}
+            <source
+              type="image/webp"
+              srcSet={`${heroPhoneWebp280} 280w, ${heroPhoneWebp560} 560w, ${heroPhoneWebp840} 840w`}
+              sizes="280px"
+            />
+            {/* Fallback img element with WebP (widely supported) */}
+            <img
+              src={heroPhoneWebp280}
+              alt="A smartphone displaying the Piggy Pocket Hero application interface with savings dashboard, transaction history, and financial goal tracking features"
+              width={280}
+              height={350}
+              fetchPriority="high"
+              loading="eager"
+              decoding="async"
+              className="animate-float drop-shadow-2xl"
+            />
+          </picture>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: "0.4s" }}>
