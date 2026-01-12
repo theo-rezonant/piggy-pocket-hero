@@ -66,6 +66,18 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [heavyData, setHeavyData] = useState<any[]>([]);
 
+  // SEO: Set page-specific title and meta description
+  useEffect(() => {
+    document.title = "Piggy Pocket - Smart Savings & Budget Tracking App";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        "content",
+        "Piggy Pocket helps you track savings, manage budgets, and achieve your financial goals with an intuitive and easy-to-use interface."
+      );
+    }
+  }, []);
+
   // PERFORMANCE ISSUE: Multiple blocking operations on mount
   useEffect(() => {
     // Synchronous heavy computation blocking render
