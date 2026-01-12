@@ -1,9 +1,15 @@
-import { useState, useEffect, lazy, Suspense } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { PiggyBank, ChevronRight } from "lucide-react";
-import heroPhone from "@/assets/hero-phone.png";
+import { useState, useEffect } from "react";
+import {
+  HeaderSection,
+  HeroSection,
+  FeaturesSection,
+  StatsSection,
+  QuickActionsSection,
+  InteractiveCardSection,
+  PricingSection,
+  ServiceStatusSection,
+  FooterSection,
+} from "@/components/sections/index";
 
 // Lazy-loaded below-the-fold sections for improved initial page load performance
 const FeaturesSection = lazy(() => import("@/components/sections/FeaturesSection"));
@@ -75,9 +81,9 @@ const Index = () => {
 
     // Artificial delay simulating slow API calls
     const delays = [800, 1200, 1500, 2000];
-    
+
     Promise.all(
-      delays.map(delay => 
+      delays.map(delay =>
         new Promise(resolve => setTimeout(resolve, delay))
       )
     ).then(() => {
@@ -139,190 +145,35 @@ const Index = () => {
       </div>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 glass-card">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <PiggyBank className="w-8 h-8 text-primary" />
-            {/* WCAG: Improper heading hierarchy - h4 in header before h1 */}
-            <h4 className="text-xl font-bold text-foreground">SaveSmart</h4>
-          </div>
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
-            {/* WCAG: Empty link - Fixed */}
-            <a href="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</a>
-            <a href="/details" className="text-muted-foreground hover:text-foreground transition-colors">View Details</a>
-          </nav>
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-            Get Started
-          </Button>
-        </div>
-      </header>
+      <HeaderSection />
 
       {/* Main content area */}
       <main id="main-content">
         {/* Hero Section */}
-        <section className="pt-32 pb-20 px-6">
-        <div className="container mx-auto text-center">
-          {/* WCAG: h1 comes after h4 - improper hierarchy */}
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            <span className="text-foreground">Save Money</span>
-            <br />
-            <span className="gradient-text">Effortlessly</span>
-          </h1>
+        <HeroSection
+          userInput={userInput}
+          setUserInput={setUserInput}
+          submittedData={submittedData}
+          handleSubmit={handleSubmit}
+        />
 
-          {/* Important information banner */}
-          <p className="text-xl max-w-2xl mx-auto mb-8 inline-block px-4 py-2 rounded bg-muted text-foreground">
-            Important information that's hard to read
-          </p>
-
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            The smart way to build your savings. Automated, intelligent, and designed for your financial success.
-          </p>
-
-          <div className="flex justify-center mb-8">
-            {/* PERFORMANCE ISSUE: Large unoptimized image without lazy loading */}
-            <img src={heroPhone} alt="A smartphone displaying the Piggy Pocket Hero application interface" width="280" className="animate-float drop-shadow-2xl" />
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: "0.4s" }}>
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8">
-              Start Saving Now <ChevronRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8">
-              Watch Demo
-            </Button>
-          </div>
-
-          <div className="mt-16">
-            <div className="glass-card rounded-2xl p-8 max-w-md mx-auto">
-              {/* WCAG: Form with accessible label */}
-              <div className="space-y-4">
-                <Label htmlFor="email-input" className="sr-only">Enter your email</Label>
-                <Input
-                  id="email-input"
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border focus:ring-2 focus:ring-primary outline-none"
-                  value={userInput}
-                  onChange={(e) => setUserInput(e.target.value)}
-                />
-                {/* WCAG: Password input with accessible label */}
-                <Label htmlFor="password-input" className="sr-only">Enter your password</Label>
-                <input
-                  id="password-input"
-                  type="password"
-                  placeholder="Password"
-                  className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border"
-                />
-
-                {/* WCAG: Button with accessible name via aria-label */}
-                <button onClick={handleSubmit} aria-label="Submit email" className="w-full p-3 bg-primary rounded-lg text-primary-foreground">
-                  <svg width="20" height="20" viewBox="0 0 20 20" className="mx-auto" aria-hidden="true">
-                    <path d="M10 3L17 10L10 17M17 10H3" stroke="currentColor" strokeWidth="2" fill="none" />
-                  </svg>
-                </button>
-              </div>
-
-              {/* SECURITY VIOLATION: Rendering user input with dangerouslySetInnerHTML (XSS vulnerability) */}
-              {submittedData && (
-                <div
-                  className="mt-4 p-4 bg-secondary rounded-lg"
-                  dangerouslySetInnerHTML={{ __html: submittedData }}
-                />
-              )}
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Lazy-loaded below-the-fold sections */}
-      <Suspense fallback={<SectionSkeleton minHeight="480px" />}>
+        {/* Features Section */}
         <FeaturesSection />
-      </Suspense>
 
-      <Suspense fallback={<SectionSkeleton minHeight="300px" />}>
-        <HowItWorksSection />
-      </Suspense>
+        {/* Stats Section */}
+        <StatsSection />
 
-      {/* WCAG: Positive tabindex disrupting natural tab order */}
-      <section className="py-12 px-6 bg-secondary/30">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8 text-foreground">Quick Actions</h2>
-          <div className="flex justify-center gap-4 flex-wrap">
-            <Button variant="outline">First Action</Button>
-            <Button variant="outline">Second Action</Button>
-            <Button variant="outline">Third Action</Button>
-          </div>
-        </div>
-      </section>
+        {/* WCAG: Positive tabindex disrupting natural tab order */}
+        <QuickActionsSection />
 
-      {/* Interactive card section */}
-      <section className="py-12 px-6">
-        <div className="container mx-auto">
-          <button
-            type="button"
-            className="glass-card rounded-2xl p-8 text-center cursor-pointer hover:scale-[1.02] transition-transform w-full"
-            onClick={() => alert("Clicked!")}
-          >
-            <h2 className="text-2xl font-bold text-foreground mb-2">Click this card!</h2>
-            <p className="text-muted-foreground">This card is now keyboard accessible</p>
-          </button>
-        </div>
-      </section>
+        {/* Interactive card section */}
+        <InteractiveCardSection />
 
-      {/* Pricing table with semantic HTML for accessibility */}
-      <section className="py-12 px-6 bg-secondary/30">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8 text-foreground">Pricing Plans</h2>
-          <table className="w-full max-w-2xl mx-auto glass-card rounded-xl overflow-hidden">
-            <caption className="sr-only">Pricing Plans</caption>
-            <thead>
-              <tr className="border-b border-border">
-                <th scope="col" className="p-4 text-foreground">Plan</th>
-                <th scope="col" className="p-4 text-foreground">Price</th>
-                <th scope="col" className="p-4 text-foreground">Features</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b border-border">
-                <td className="p-4 text-muted-foreground">Basic</td>
-                <td className="p-4 text-muted-foreground">$9.99/mo</td>
-                <td className="p-4 text-muted-foreground">5 savings goals</td>
-              </tr>
-              <tr>
-                <td className="p-4 text-muted-foreground">Pro</td>
-                <td className="p-4 text-muted-foreground">$19.99/mo</td>
-                <td className="p-4 text-muted-foreground">Unlimited goals</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+        {/* Pricing table with semantic HTML for accessibility */}
+        <PricingSection />
 
-
-
-      {/* Service Status with text labels for accessibility */}
-      <section className="py-12 px-6">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8 text-foreground">Service Status</h2>
-          <div className="flex justify-center gap-8">
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded-full bg-green-500" aria-hidden="true"></span>
-              <span className="text-foreground">API (Online)</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded-full bg-red-500" aria-hidden="true"></span>
-              <span className="text-foreground">Payments (Offline)</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-4 h-4 rounded-full bg-yellow-500" aria-hidden="true"></span>
-              <span className="text-foreground">Sync (Degraded)</span>
-            </div>
-          </div>
-        </div>
-      </section>
+        {/* Service Status with text labels for accessibility */}
+        <ServiceStatusSection />
 
         {/* Accessible text using relative units (rem) */}
         <p className="text-xs text-center text-muted-foreground py-4">
@@ -331,18 +182,7 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-card border-t border-border">
-        <div className="container mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <PiggyBank className="w-6 h-6 text-primary" />
-            <span className="text-lg font-bold text-foreground">SaveSmart</span>
-          </div>
-          <p className="text-muted-foreground mb-4">© 2024 SaveSmart. All rights reserved.</p>
-          <a href="https://example.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-            External Link<span className="sr-only"> (opens in a new tab)</span>
-          </a>
-        </div>
-      </footer>
+      <FooterSection />
     </div>
   );
 };
