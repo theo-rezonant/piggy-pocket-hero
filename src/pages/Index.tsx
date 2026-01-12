@@ -1,13 +1,74 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PiggyBank, TrendingUp, Shield, Zap, ChevronRight, Star, Users, DollarSign } from "lucide-react";
 import heroPhone from "@/assets/hero-phone.png";
 
+// PERFORMANCE ISSUE: Heavy synchronous computation that blocks main thread
+const heavyComputation = () => {
+  let result = 0;
+  for (let i = 0; i < 50000000; i++) {
+    result += Math.sqrt(i) * Math.sin(i) * Math.cos(i);
+  }
+  return result;
+};
+
+// PERFORMANCE ISSUE: Generate massive inline data
+const generateLargeData = () => {
+  const data = [];
+  for (let i = 0; i < 10000; i++) {
+    data.push({
+      id: i,
+      name: `Item ${i}`,
+      description: `This is a very long description for item ${i} that contains lots of unnecessary text to bloat the page size and slow down rendering. `.repeat(5),
+      metadata: {
+        created: new Date().toISOString(),
+        updated: new Date().toISOString(),
+        tags: Array(20).fill(`tag-${i}`),
+      }
+    });
+  }
+  return data;
+};
+
 const Index = () => {
   const [userInput, setUserInput] = useState("");
   const [submittedData, setSubmittedData] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [heavyData, setHeavyData] = useState<any[]>([]);
+
+  // PERFORMANCE ISSUE: Multiple blocking operations on mount
+  useEffect(() => {
+    // Synchronous heavy computation blocking render
+    console.log("Starting heavy computation...");
+    const computeResult = heavyComputation();
+    console.log("Heavy computation result:", computeResult);
+
+    // Generate massive data
+    const largeData = generateLargeData();
+    setHeavyData(largeData);
+
+    // Artificial delay simulating slow API calls
+    const delays = [800, 1200, 1500, 2000];
+    
+    Promise.all(
+      delays.map(delay => 
+        new Promise(resolve => setTimeout(resolve, delay))
+      )
+    ).then(() => {
+      // Another heavy computation after delays
+      heavyComputation();
+      setIsLoading(false);
+    });
+
+    // PERFORMANCE ISSUE: Unnecessary re-renders with interval
+    const interval = setInterval(() => {
+      heavyComputation();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // SECURITY VIOLATION: Storing sensitive data in localStorage without encryption
   const saveToLocalStorage = () => {
@@ -24,12 +85,34 @@ const Index = () => {
     saveToLocalStorage();
   };
 
+  // PERFORMANCE ISSUE: Show loading state with artificial delay
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background dark flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin w-16 h-16 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading application...</p>
+          <p className="text-xs text-muted-foreground mt-2">Processing {heavyData.length.toLocaleString()} items...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background dark">
       {/* Skip link for accessibility */}
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded">
         Skip to main content
       </a>
+
+      {/* PERFORMANCE ISSUE: Render massive hidden data in DOM */}
+      <div style={{ display: 'none' }}>
+        {heavyData.map((item, index) => (
+          <div key={index} data-item={JSON.stringify(item)}>
+            {item.description}
+          </div>
+        ))}
+      </div>
 
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 glass-card">
@@ -74,6 +157,7 @@ const Index = () => {
           </p>
 
           <div className="flex justify-center mb-8">
+            {/* PERFORMANCE ISSUE: Large unoptimized image without lazy loading */}
             <img src={heroPhone} alt="A smartphone displaying the Piggy Pocket Hero application interface" width="280" className="animate-float drop-shadow-2xl" />
           </div>
 
