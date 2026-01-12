@@ -4,6 +4,18 @@ import { useEffect } from "react";
 const NotFound = () => {
   const location = useLocation();
 
+  // SEO: Set page-specific title and meta description for 404 page
+  useEffect(() => {
+    document.title = "Page Not Found - Piggy Pocket";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        "content",
+        "The page you are looking for could not be found. Return to Piggy Pocket home to continue managing your savings."
+      );
+    }
+  }, []);
+
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
   }, [location.pathname]);
