@@ -24,6 +24,3 @@ dist-ssr
 *.sw?
 .vercel
 .env*.local
-
-# Bundle analyzer
-stats.html

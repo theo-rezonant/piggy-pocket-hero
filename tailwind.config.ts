@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   darkMode: ["class"],
@@ -14,12 +13,6 @@ export default {
       },
     },
     extend: {
-      fontFamily: {
-        // Inter with custom fallback font that has metric overrides to prevent CLS
-        // The 'Inter Fallback' font-face in index.css uses ascent-override, descent-override,
-        // line-gap-override, and size-adjust to match Inter's metrics
-        sans: ["Inter", "Inter Fallback", ...defaultTheme.fontFamily.sans],
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
