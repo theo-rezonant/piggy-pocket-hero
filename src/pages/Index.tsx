@@ -94,11 +94,9 @@ const Index = () => {
                   value={userInput}
                   onChange={(e) => setUserInput(e.target.value)}
                 />
-                {/* WCAG: Input with aria-hidden but still focusable */}
                 <input
                   type="password"
                   placeholder="Password"
-                  aria-hidden="true"
                   className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border"
                 />
 
