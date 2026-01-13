@@ -168,7 +168,7 @@ const Index = () => {
               { icon: DollarSign, value: "$2.5B", label: "Saved by Users" },
               { icon: Star, value: "4.9/5", label: "App Store Rating" },
             ].map((stat, index) => (
-              <div key={index} className="glass-card rounded-2xl p-8">
+              <div key={index} className="glass-card rounded-2xl p-8 hover:scale-105 hover:border-primary/50 hover:shadow-primary/20 transition-all">
                 <stat.icon className="w-10 h-10 text-primary mx-auto mb-4" />
                 <div className="text-4xl font-bold text-foreground mb-2">{stat.value}</div>
                 <div className="text-muted-foreground">{stat.label}</div>
