@@ -1,36 +1,3 @@
-/* Self-hosted Inter font for improved performance */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/inter-regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/inter-medium.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/fonts/inter-semibold.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/inter-bold.woff2') format('woff2');
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -81,27 +48,27 @@
     --popover: 220 25% 10%;
     --popover-foreground: 220 14% 96%;
 
-    --primary: 160 84% 52%;
+    --primary: 160 84% 45%;
     --primary-foreground: 220 25% 6%;
 
     --secondary: 220 20% 15%;
-    --secondary-foreground: 240 100% 100%;
+    --secondary-foreground: 220 14% 96%;
 
-    --muted: 220 20% 20%;
-    --muted-foreground: 220 14% 96%;
+    --muted: 220 20% 15%;
+    --muted-foreground: 220 14% 60%;
 
-    --accent: 160 84% 52%;
-    --accent-foreground: 240 100% 99%;
+    --accent: 160 84% 45%;
+    --accent-foreground: 220 25% 6%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 220 20% 18%;
     --input: 220 20% 18%;
-    --ring: 160 84% 52%;
+    --ring: 160 84% 45%;
 
-    --gradient-start: 160 84% 52%;
-    --gradient-end: 180 70% 50%;
+    --gradient-start: 160 84% 45%;
+    --gradient-end: 180 70% 40%;
   }
 }
 
@@ -119,20 +86,8 @@
   .gradient-text {
     @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
   }
-
+  
   .glass-card {
     @apply bg-card/80 backdrop-blur-lg border border-border/50 shadow-xl;
-  }
-}
-
-/* Disable animations for users who prefer reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

